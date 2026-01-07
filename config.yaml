@@ -1,0 +1,8 @@
+# config.yaml
+services:
+  - name: API Server
+    unit: balam-server.services
+  - name: Database
+    unit: postgresql.service
+  - name: Worker
+    unit: balam-worker.service
