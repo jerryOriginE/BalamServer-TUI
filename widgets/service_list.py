@@ -1,7 +1,7 @@
 # widgets/service_list.py
 from textual.widgets import ListView, ListItem, Label
 from textual.message import Message
-from balam.services.systemctl import get_service_status
+from services.systemctl import get_service_status
 
 STATUS_ICON = {
     "active": "●",

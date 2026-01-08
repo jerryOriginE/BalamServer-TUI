@@ -1,4 +1,4 @@
-from balam.dashboard import ServerDashboard
+from dashboard import ServerDashboard
 import sys
 
 VERSION = "v0.1.0"
@@ -8,7 +8,8 @@ if "--version" in sys.argv or "-v" in sys.argv:
     sys.exit(0)
 
 def main():
-    ServerDashboard().run()
+    app = ServerDashboard()
+    app.run()
 
 if __name__ == "__main__":
     main()

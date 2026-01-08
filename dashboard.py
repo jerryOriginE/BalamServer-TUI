@@ -4,42 +4,95 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
 
-from importlib.resources import files
-from balam.services.registry import load_services
-from balam.widgets.service_list import ServiceList, ServiceSelected
-from balam.widgets.log_viewer import LogViewer
-from balam.widgets.status_bar import StatusBar
-from balam.widgets.service_info import ServiceInfo
-from balam.services.systemctl import service_action
+from services.registry import load_services
+from widgets.service_list import ServiceList, ServiceSelected
+from widgets.log_viewer import LogViewer
+from widgets.status_bar import StatusBar
+from widgets.service_info import ServiceInfo
+from services.systemctl import service_action
 import asyncio
 
+
 class ServerDashboard(App):
+    CSS = """
+/* General dashboard styling */
+ServiceList {
+    width: 25%;
+    border: round $accent;
+    padding: 1 1;
+    background: $panel;
+}
+
+LogViewer {
+    width: 50%;
+    border: round $primary;
+    padding: 1 1;
+    background: $panel;
+}
+
+ServiceInfo {
+    width: 25%;
+    border: round $secondary;
+    padding: 1 1;
+    background: $panel;
+}
+
+StatusBar {
+    height: 1;
+    background: $panel;
+    color: $text;
+    text-style: bold;
+    padding: 0 1;
+}
+
+/* Optional: log header styling */
+LogViewer > Static {
+    text-style: bold;
+    color: $primary;
+}
+
+/* Optional: selected service highlight */
+ServiceList > Static.-selected {
+    background: $accent;
+    color: $text;
+    text-style: bold;
+}
+
+/* Optional: hover effect on services */
+ServiceList > Static:hover {
+    background: $accent-darken-1;
+}
+
+/* Optional: colors for service states in ServiceInfo */
+ServiceInfo > Static[state="active"] {
+    color: green;
+}
+
+ServiceInfo > Static[state="inactive"] {
+    color: red;
+}
+
+/* Optional: borders and padding for nice spacing */
+Horizontal {
+    padding: 1;
+    gap: 1;
+}
+
+Vertical {
+    padding: 1;
+    gap: 1;
+}
+"""
+
+    TITLE = "BALAM Server"
+    
     def __init__(self):
         super().__init__()
         self.current_service = None
 
-    CSS = """
-    ServiceList {
-        width: 25%;
-        border: tall $accent;
-    }
-    LogViewer {
-        width: 50%;
-        border: tall $primary;
-    }
-    StatusBar {
-        height: 1;
-        background: $panel;
-        color: $text;
-    }
-    ServiceInfo {
-        width: 25%;
-        border: tall $secondary;
-    }
-    """
-
     BINDINGS = [
         Binding("q", "quit", "Quit"),
+        Binding("Q", "quit", "Quit"),
         Binding("escape", "focus_services", "Services"),
         Binding("f", "toggle_follow", "Follow Logs"),
 
@@ -52,8 +105,7 @@ class ServerDashboard(App):
         self.service_list.focus()
 
     def compose(self) -> ComposeResult:
-        config_path = files("balam").joinpath("config.yaml")
-        services = load_services(config_path)
+        services = load_services(Path("config.yaml"))
 
         self.service_list = ServiceList(services)
         self.log_viewer = LogViewer()

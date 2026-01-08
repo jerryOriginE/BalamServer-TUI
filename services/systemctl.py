@@ -18,14 +18,14 @@ def service_action(unit: str, action: str):
         check=False,
     )
 
-def get_service_info(unit: str ) -> dict:
+def get_service_info(unit: str ) -> dict | None:
     result = subprocess.run(
-        ["systemctl", "show", unit, "--no-page"],
+        ["systemctl", "show", unit],
         capture_output=True,
         text=True,
     )
 
-    if result.returncode != 0:
+    if result.returncode != 0 or not result.stdout:
         return None
 
     info = {}

@@ -1,7 +1,7 @@
 # widgets/status_bar.py
 import os
 from textual.widgets import Static
-from balam.services.server import server_summary
+from services.server import server_summary
 
 def get_uptime_seconds() -> int:
     try:
@@ -41,7 +41,7 @@ class StatusBar(Static):
 
         # Defensive: log_viewer may not exist yet
         log_viewer = getattr(self.app, "log_viewer", None)
-        mode = "FOLLOW" if log_viewer and log_viewer.following else "STATIC"
+        mode = "STATIC"
 
         self.update(
             f"[bold]{host}[/bold]  "
