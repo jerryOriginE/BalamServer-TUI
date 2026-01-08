@@ -7,6 +7,8 @@ def escape_markup(text: str) -> str:
     return text.replace("[", "(").replace("]", ")").replace("{", "(").replace("}", ")")
 
 class ServiceInfo(Static):
+    BORDER_TITLE = "Service Info"
+
     def __init__(self, *args, **kwargs):
         super().__init__(markup=True, *args, **kwargs)
         self.unit: str | None = None

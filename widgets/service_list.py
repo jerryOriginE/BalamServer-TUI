@@ -23,6 +23,7 @@ class ServiceSelected(Message):
         super().__init__()
 
 class ServiceList(ListView):
+    BORDER_TITLE = "Service List"
     def __init__(self, services):
         super().__init__()
         self.services = services

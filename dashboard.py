@@ -15,74 +15,45 @@ import asyncio
 
 class ServerDashboard(App):
     CSS = """
-/* General dashboard styling */
+Screen {
+    background: $background 10%;
+}
+
+/* Panels */
+ServiceList, LogViewer, ServiceInfo {
+    padding: 1;
+    border: round $accent;
+    background: $panel 10%;
+}
+
+/* Specific sizing */
 ServiceList {
     width: 25%;
-    border: round $accent;
-    padding: 1 1;
-    background: $panel;
 }
 
 LogViewer {
     width: 50%;
-    border: round $primary;
-    padding: 1 1;
-    background: $panel;
 }
 
 ServiceInfo {
     width: 25%;
-    border: round $secondary;
-    padding: 1 1;
-    background: $panel;
 }
 
+/* Status bar */
 StatusBar {
     height: 1;
-    background: $panel;
+    background: $boost;
     color: $text;
-    text-style: bold;
-    padding: 0 1;
 }
 
-/* Optional: log header styling */
-LogViewer > Static {
-    text-style: bold;
-    color: $primary;
-}
-
-/* Optional: selected service highlight */
-ServiceList > Static.-selected {
-    background: $accent;
-    color: $text;
-    text-style: bold;
-}
-
-/* Optional: hover effect on services */
-ServiceList > Static:hover {
-    background: $accent-darken-1;
-}
-
-/* Optional: colors for service states in ServiceInfo */
-ServiceInfo > Static[state="active"] {
-    color: green;
-}
-
-ServiceInfo > Static[state="inactive"] {
-    color: red;
-}
-
-/* Optional: borders and padding for nice spacing */
-Horizontal {
-    padding: 1;
-    gap: 1;
-}
-
-Vertical {
-    padding: 1;
-    gap: 1;
+/* Focus styles */
+ServiceList:focus-within,
+LogViewer:focus-within,
+ServiceInfo:focus-within {
+    border: round $primary;
 }
 """
+
 
     TITLE = "BALAM Server"
     

@@ -4,7 +4,8 @@ from services.journal import get_recent_logs
 from collections import deque
 
 class LogViewer(Static):
-    MAX_LINES = 200
+    BORDER_TITLE = "Log Viewer"
+    MAX_LINES = 20
 
     def on_mount(self):
         self.lines = deque(maxlen=self.MAX_LINES)
