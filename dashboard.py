@@ -9,18 +9,29 @@ from widgets.service_list import ServiceList, ServiceSelected
 from widgets.log_viewer import LogViewer
 from widgets.status_bar import StatusBar
 from widgets.service_info import ServiceInfo
+from widgets.health_bar import HealthBar
 from services.systemctl import service_action
+from widgets.postgres_info import PostgresInfo
+from config import config_path
 import asyncio
 
 
 class ServerDashboard(App):
     CSS = """
+#main {
+layout: horizontal;
+height: 1fr;
+}
+#right-panel {
+width: 25%;
+}
 Screen {
     background: $background 10%;
+    layout: vertical;
 }
 
 /* Panels */
-ServiceList, LogViewer, ServiceInfo {
+ServiceList, LogViewer, ServiceInfo, PostgresInfo {
     padding: 1;
     border: round $accent;
     background: $panel 10%;
@@ -33,17 +44,31 @@ ServiceList {
 
 LogViewer {
     width: 50%;
+    overflow-y: auto;
 }
 
-ServiceInfo {
-    width: 25%;
+ServiceInfo, PostgresInfo {
+    width: 100%;
+    border: round green;
 }
-
+PostgresInfo {
+    width: 100%;
+    border: round blue;
+}
 /* Status bar */
 StatusBar {
     height: 1;
     background: $boost;
     color: $text;
+}
+
+/* Health bar */
+HealthBar {
+    height: 1;
+    padding-left: 1;
+    padding-right: 1;
+    color: $text;
+    background: $boost;
 }
 
 /* Focus styles */
@@ -56,7 +81,7 @@ ServiceInfo:focus-within {
 
 
     TITLE = "BALAM Server"
-    
+
     def __init__(self):
         super().__init__()
         self.current_service = None
@@ -67,35 +92,46 @@ ServiceInfo:focus-within {
         Binding("escape", "focus_services", "Services"),
         Binding("f", "toggle_follow", "Follow Logs"),
 
-        Binding("r", "restart_service", "Restart Service"),
-        Binding("s", "stop_service", "Stop Service"),
-        Binding("p", "start_service", "Start Service"),
+        #Binding("r", "restart_service", "Restart Service"),
+        #Binding("s", "stop_service", "Stop Service"),
+        #Binding("p", "start_service", "Start Service"),
     ]
 
     def action_focus_services(self):
         self.service_list.focus()
 
     def compose(self) -> ComposeResult:
-        services = load_services(Path("config.yaml"))
+        services = load_services(config_path())
 
         self.service_list = ServiceList(services)
         self.log_viewer = LogViewer()
         self.service_info = ServiceInfo()
+        self.health_bar = HealthBar(services)
+        self.status_bar = StatusBar()
+        self.postgres_info = PostgresInfo()
 
-        yield Vertical(
-            Horizontal(
-                self.service_list,
-                self.log_viewer,
+        yield self.health_bar
+
+        yield Horizontal(
+            self.service_list,
+            self.log_viewer,
+            Vertical(
                 self.service_info,
+                self.postgres_info,
+                id="right-panel",
             ),
-            StatusBar(),
+            id="main",
         )
+
+        yield self.status_bar
+
         
 
     async def on_service_selected(self, message: ServiceSelected):
         self.current_service = message.service
         await self.log_viewer.show_service(message.service)
         await self.service_info.show_service(message.service)
+        await self.postgres_info.show_for_service(message.service)
 
     async def action_toggle_follow(self):
         await self.log_viewer.toggle_follow()

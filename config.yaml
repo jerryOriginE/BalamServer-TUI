@@ -1,7 +1,0 @@
-# config.yaml
-services:
-  - name: BALAM Server
-    unit: balam-server.service
-
-  - name: Cloudflared
-    unit: cloudflared.service

@@ -1,7 +1,8 @@
 # widgets/service_list.py
 from textual.widgets import ListView, ListItem, Label
 from textual.message import Message
-from services.systemctl import get_service_status
+from services.systemctl import get_service_status, get_last_log_line
+import asyncio
 
 STATUS_ICON = {
     "active": "●",
@@ -24,13 +25,24 @@ class ServiceSelected(Message):
 
 class ServiceList(ListView):
     BORDER_TITLE = "Service List"
+    REFRESH_INTERVAL = 5
+
     def __init__(self, services):
         super().__init__()
         self.services = services
+        self._task: asyncio.Task | None = None
 
     def on_mount(self):
         self.refresh_status()
-        self.set_interval(5, self.refresh_status)
+        self._task = asyncio.create_task(self.auto_refresh())
+
+    async def auto_refresh(self):
+        try:
+            while True:
+                await asyncio.sleep(self.REFRESH_INTERVAL)
+                self.refresh_status()
+        except asyncio.CancelledError:
+            pass
 
     def refresh_status(self):
         self.clear()
@@ -40,7 +52,11 @@ class ServiceList(ListView):
             icon = STATUS_ICON.get(status, "?")
             color = STATUS_COLOR.get(status, "white")
 
-            label = Label(f"[{color}]{icon}[/] {service.name}") 
+            log = get_last_log_line(service.unit)
+            log = (log or "").strip()
+            log = log[:40]
+
+            label = Label(f"[{color}]{icon}[/] {service.name} - {log}") 
             item = ListItem(label)
             item.service = service
             self.append(item)

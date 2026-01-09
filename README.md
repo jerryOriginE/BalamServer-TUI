@@ -1,4 +1,4 @@
-# BalamServer-TUI
+# BALAM-Server TUI - v0.2.0
 
 A lightweight, single-binary **Terminal User Interface (TUI)** for monitoring and following systemd services on the official Balam Server.
 
@@ -11,7 +11,6 @@ BalamServer-TUI is designed for **BALAM-SERVER**: no virtual environments, no Py
 * Interactive TUI built with **Textual**
 * Live **systemd service list**
 * Follow service logs in real time (journalctl)
-* Clear distinction between **FOLLOW** and **STATIC** log modes
 * System status bar:
 
   * Hostname
@@ -19,6 +18,7 @@ BalamServer-TUI is designed for **BALAM-SERVER**: no virtual environments, no Py
   * Load average
   * Disk usage
   * Current log mode
+
 * Keyboard-driven workflow (no mouse required)
 * Designed for SSH usage
 
@@ -62,7 +62,7 @@ balam
 
 #### Requirements
 
-* Python 3.10+
+* Python 3.13+
 * pip
 * Linux with systemd
 
@@ -83,17 +83,19 @@ BalamServer-TUI/
 ├── balam/
 │   ├── app.py                # Application entrypoint
 │   ├── dashboard.py          # Main TUI layout
+│   ├── config.py             # Config Handler
 │   ├── widgets/              # Textual widgets
-│   │   ├── service_list.py
-│   │   ├── service_info.py
+│   │   ├── health_bar.py
 │   │   ├── log_viewer.py
+│   │   ├── postgres_info.py
+│   │   ├── service_info.py
+│   │   ├── service_list.py
 │   │   └── status_bar.py
 │   ├── services/             # Backend service logic
 │   │   ├── registry.py
 │   │   ├── journal.py
 │   │   ├── systemctl.py
 │   │   └── server.py
-│   ├── config.yaml            # Default bundled config
 │   └── __init__.py
 ├── build.sh                   # PyInstaller build script
 └── README.md

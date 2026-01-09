@@ -1,9 +1,10 @@
 # widgets/log_viewer.py
 from textual.widgets import Static
+from textual.containers import VerticalScroll
 from services.journal import get_recent_logs
 from collections import deque
 
-class LogViewer(Static):
+class LogViewer(VerticalScroll):
     BORDER_TITLE = "Log Viewer"
     MAX_LINES = 20
 

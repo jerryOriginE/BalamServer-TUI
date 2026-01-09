@@ -2022,7 +2022,9 @@ imported by:
  &#8226;   <a href="#textual.widgets._tabbed_content">textual.widgets._tabbed_content</a>
  &#8226;   <a href="#textual.worker">textual.worker</a>
  &#8226;   <a href="#textual.worker_manager">textual.worker_manager</a>
+ &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
+ &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
 
   </div>
 
@@ -3432,6 +3434,23 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="config"></a>
+  <a target="code" href="/src/config.py" type="text/plain"><tt>config</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pathlib">pathlib</a>
+ &#8226;   <a href="#yaml">yaml</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#dashboard">dashboard</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="configparser"></a>
   <a target="code" href="/usr/lib/python3.10/configparser.py" type="text/plain"><tt>configparser</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -3679,13 +3698,16 @@ imported by:
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#asyncio">asyncio</a>
+ &#8226;   <a href="#config">config</a>
  &#8226;   <a href="#pathlib">pathlib</a>
  &#8226;   <a href="#services.registry">services.registry</a>
  &#8226;   <a href="#services.systemctl">services.systemctl</a>
  &#8226;   <a href="#textual.app">textual.app</a>
  &#8226;   <a href="#textual.binding">textual.binding</a>
  &#8226;   <a href="#textual.containers">textual.containers</a>
+ &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
+ &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
  &#8226;   <a href="#widgets.status_bar">widgets.status_bar</a>
@@ -11224,7 +11246,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#dashboard">dashboard</a>
+    <a href="#config">config</a>
+ &#8226;   <a href="#dashboard">dashboard</a>
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
  &#8226;   <a href="#importlib.readers">importlib.readers</a>
  &#8226;   <a href="#markdown_it.utils">markdown_it.utils</a>
@@ -22416,6 +22439,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#dashboard">dashboard</a>
+ &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
 
@@ -22849,6 +22873,7 @@ imported by:
  &#8226;   <a href="#services.systemctl">services.systemctl</a>
  &#8226;   <a href="#uuid">uuid</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
+ &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
 
   </div>
 
@@ -25294,6 +25319,7 @@ imported by:
  &#8226;   <a href="#textual.widgets._tabs">textual.widgets._tabs</a>
  &#8226;   <a href="#textual.widgets._toast">textual.widgets._toast</a>
  &#8226;   <a href="#textual.widgets._welcome">textual.widgets._welcome</a>
+ &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
 
   </div>
 
@@ -28996,7 +29022,9 @@ imported by:
  &#8226;   <a href="#textual.widgets.tabbed_content">textual.widgets.tabbed_content</a>
  &#8226;   <a href="#textual.widgets.text_area">textual.widgets.text_area</a>
  &#8226;   <a href="#textual.widgets.tree">textual.widgets.tree</a>
+ &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
+ &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
  &#8226;   <a href="#widgets.status_bar">widgets.status_bar</a>
@@ -31989,10 +32017,30 @@ imported by:
   <a target="code" href="/src/widgets/__init__.py" type="text/plain"><tt>widgets</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
 imported by:
-    <a href="#widgets.log_viewer">widgets.log_viewer</a>
+    <a href="#widgets.health_bar">widgets.health_bar</a>
+ &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
+ &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
  &#8226;   <a href="#widgets.status_bar">widgets.status_bar</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="widgets.health_bar"></a>
+  <a target="code" href="/src/widgets/health_bar.py" type="text/plain"><tt>widgets.health_bar</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#services.systemctl">services.systemctl</a>
+ &#8226;   <a href="#textual.widgets">textual.widgets</a>
+ &#8226;   <a href="#widgets">widgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#dashboard">dashboard</a>
 
   </div>
 
@@ -32005,6 +32053,26 @@ imported by:
 imports:
     <a href="#collections">collections</a>
  &#8226;   <a href="#services.journal">services.journal</a>
+ &#8226;   <a href="#textual.containers">textual.containers</a>
+ &#8226;   <a href="#textual.widgets">textual.widgets</a>
+ &#8226;   <a href="#widgets">widgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#dashboard">dashboard</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="widgets.postgres_info"></a>
+  <a target="code" href="/src/widgets/postgres_info.py" type="text/plain"><tt>widgets.postgres_info</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#asyncio">asyncio</a>
+ &#8226;   <a href="#subprocess">subprocess</a>
  &#8226;   <a href="#textual.widgets">textual.widgets</a>
  &#8226;   <a href="#widgets">widgets</a>
 
@@ -32042,7 +32110,8 @@ imported by:
   <a target="code" href="/src/widgets/service_list.py" type="text/plain"><tt>widgets.service_list</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#services.systemctl">services.systemctl</a>
+    <a href="#asyncio">asyncio</a>
+ &#8226;   <a href="#services.systemctl">services.systemctl</a>
  &#8226;   <a href="#textual.message">textual.message</a>
  &#8226;   <a href="#textual.widgets">textual.widgets</a>
  &#8226;   <a href="#widgets">widgets</a>
@@ -32349,6 +32418,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#app.py">app.py</a>
+ &#8226;   <a href="#config">config</a>
  &#8226;   <a href="#services.registry">services.registry</a>
  &#8226;   <a href="#yaml._yaml">yaml._yaml</a>
  &#8226;   <a href="#yaml.composer">yaml.composer</a>

@@ -7,6 +7,8 @@ import yaml
 class Service:
     name: str
     unit: str
+    state: str | None = None
+    last_log: str | None = None
 
 def load_services(config_path: Path) -> list[Service]:
     with config_path.open() as f:

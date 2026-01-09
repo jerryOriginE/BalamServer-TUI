@@ -46,6 +46,15 @@ def get_service_status(unit: str) -> str:
             text=True,
             check=False,
         )
-        return result.stdout.strip()
+        return result.stdout.strip() if result.returncode == 0 else "failed"
     except Exception:
         return "unkown"
+
+def get_last_log_line(unit: str) -> str:
+    result = subprocess.run(
+        ["journalctl", "-u", unit, "-n", "1", "--no-pager"],
+        capture_output=True,
+        text=True,
+    )
+    line = result.stdout.strip()
+    return line.split("\n")[-1] if line else ""

@@ -1,7 +1,7 @@
 from dashboard import ServerDashboard
 import sys
 
-VERSION = "v0.1.0"
+VERSION = "v0.2.0"
 
 if "--version" in sys.argv or "-v" in sys.argv:
     print(f"BALAM Server TUI - Initial Release - {VERSION}")
