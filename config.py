@@ -11,8 +11,7 @@ def ensure_config_exists():
     path = config_path()
 
     if path.exists():
-        return
-
+        return True
     path.parent.mkdir(parents=True, exist_ok=True)
 
     path.write_text(

@@ -10,15 +10,13 @@ class PostgresInfo(Static):
         super().__init__()
         self.visible = True
 
-    async def show_for_service(self, service):
-        if "postgres" and not service.unit.lower():
-            self.visible = False
-            self.update("")
-            return
-        
+    async def show(self):
         self.visible = True
         info = await asyncio.to_thread(self._fetch_info)
         self.update(info)
+
+    async def on_mount(self) -> None:
+        await self.show()
 
     def _fetch_info(self) -> str:
         try:

@@ -12,6 +12,7 @@ from widgets.service_info import ServiceInfo
 from widgets.health_bar import HealthBar
 from services.systemctl import service_action
 from widgets.postgres_info import PostgresInfo
+from widgets.logo import BalamLogo
 from config import config_path
 import asyncio
 
@@ -54,6 +55,10 @@ ServiceInfo, PostgresInfo {
 PostgresInfo {
     width: 100%;
     border: round blue;
+}
+BalamLogo {
+    width: 100%;
+    border: round white;
 }
 /* Status bar */
 StatusBar {
@@ -109,6 +114,7 @@ ServiceInfo:focus-within {
         self.health_bar = HealthBar(services)
         self.status_bar = StatusBar()
         self.postgres_info = PostgresInfo()
+        self.logo = BalamLogo()
 
         yield self.health_bar
 
@@ -118,6 +124,7 @@ ServiceInfo:focus-within {
             Vertical(
                 self.service_info,
                 self.postgres_info,
+                self.logo,
                 id="right-panel",
             ),
             id="main",
@@ -131,7 +138,7 @@ ServiceInfo:focus-within {
         self.current_service = message.service
         await self.log_viewer.show_service(message.service)
         await self.service_info.show_service(message.service)
-        await self.postgres_info.show_for_service(message.service)
+        #await self.postgres_info.show_for_service(message.service)
 
     async def action_toggle_follow(self):
         await self.log_viewer.toggle_follow()

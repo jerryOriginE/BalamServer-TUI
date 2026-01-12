@@ -14,6 +14,7 @@ class ServiceInfo(Static):
         self.unit: str | None = None
         self._task: asyncio.Task | None = None
         self._refresh_lock = asyncio.Lock()
+        self.update("No service selected")
 
     async def show_service(self, service):
         self.unit = getattr(service, "unit", None)
