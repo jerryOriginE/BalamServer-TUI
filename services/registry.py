@@ -10,6 +10,11 @@ class Service:
     state: str | None = None
     last_log: str | None = None
 
+@dataclass
+class GlobalCommand:
+    name: str
+    command: str
+
 def load_services(config_path: Path) -> list[Service]:
     with config_path.open() as f:
         data = yaml.safe_load(f)
@@ -22,3 +27,16 @@ def load_services(config_path: Path) -> list[Service]:
         ))
 
     return services
+
+def load_global_commands(config_path: Path) -> list[GlobalCommand]:
+    with config_path.open() as f:
+        data = yaml.safe_load(f)
+
+    commands = []
+    for entry in data.get("global_commands", []):
+        commands.append(GlobalCommand(
+            name=entry["name"],
+            command=entry["command"]
+            ))
+
+    return commands

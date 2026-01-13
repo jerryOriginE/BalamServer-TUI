@@ -16,6 +16,10 @@ if "--make-config" in sys.argv or "-mc" in sys.argv:
 
     sys.exit(0)
 
+if "--author" in sys.argv or "-a" in sys.argv:
+    print("This utility was created by jerry.origin")
+    sys.exit(0)
+
 def main():
     app = ServerDashboard()
     app.run()

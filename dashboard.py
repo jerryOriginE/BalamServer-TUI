@@ -4,7 +4,8 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
 
-from services.registry import load_services
+from modals.debug_box import DebugBox
+from services.registry import load_services, load_global_commands
 from widgets.service_list import ServiceList, ServiceSelected
 from widgets.log_viewer import LogViewer
 from widgets.status_bar import StatusBar
@@ -13,6 +14,8 @@ from widgets.health_bar import HealthBar
 from services.systemctl import service_action
 from widgets.postgres_info import PostgresInfo
 from widgets.logo import BalamLogo
+from widgets.command_list import CommandList
+from widgets.global_command_list import CommandSelected, GlobalCommandList
 from config import config_path
 import asyncio
 
@@ -32,7 +35,7 @@ Screen {
 }
 
 /* Panels */
-ServiceList, LogViewer, ServiceInfo, PostgresInfo {
+ServiceList, GlobalCommandList, LogViewer, ServiceInfo, PostgresInfo {
     padding: 1;
     border: round $accent;
     background: $panel 10%;
@@ -40,8 +43,11 @@ ServiceList, LogViewer, ServiceInfo, PostgresInfo {
 
 /* Specific sizing */
 ServiceList {
-    width: 25%;
+    width: 100%;
 }
+GlobalCommandList {
+        width: 100%;
+        }
 
 LogViewer {
     width: 50%;
@@ -78,6 +84,7 @@ HealthBar {
 
 /* Focus styles */
 ServiceList:focus-within,
+GlobalCommandList:focus-within,
 LogViewer:focus-within,
 ServiceInfo:focus-within {
     border: round $primary;
@@ -95,7 +102,8 @@ ServiceInfo:focus-within {
         Binding("q", "quit", "Quit"),
         Binding("Q", "quit", "Quit"),
         Binding("escape", "focus_services", "Services"),
-        Binding("f", "toggle_follow", "Follow Logs"),
+        Binding("tab", "focus_commands", "Tabs")
+       # Binding("f", "toggle_follow", "Follow Logs"),
 
         #Binding("r", "restart_service", "Restart Service"),
         #Binding("s", "stop_service", "Stop Service"),
@@ -105,8 +113,13 @@ ServiceInfo:focus-within {
     def action_focus_services(self):
         self.service_list.focus()
 
+    def action_focus_commands(self):
+        self.global_command_list.focus()
+
     def compose(self) -> ComposeResult:
         services = load_services(config_path())
+        commands = load_global_commands(config_path())
+
 
         self.service_list = ServiceList(services)
         self.log_viewer = LogViewer()
@@ -115,16 +128,23 @@ ServiceInfo:focus-within {
         self.status_bar = StatusBar()
         self.postgres_info = PostgresInfo()
         self.logo = BalamLogo()
+        self.global_command_list = GlobalCommandList(commands)
+        self.command_list = CommandList()
+
+        #self.push_screen(DebugBox(str(commands)))
 
         yield self.health_bar
 
         yield Horizontal(
-            self.service_list,
+            Vertical(
+                self.service_list,
+                self.global_command_list,
+                id="left-panel"),
             self.log_viewer,
             Vertical(
                 self.service_info,
                 self.postgres_info,
-                self.logo,
+#                self.logo,
                 id="right-panel",
             ),
             id="main",
@@ -132,16 +152,18 @@ ServiceInfo:focus-within {
 
         yield self.status_bar
 
-        
-
     async def on_service_selected(self, message: ServiceSelected):
         self.current_service = message.service
         await self.log_viewer.show_service(message.service)
         await self.service_info.show_service(message.service)
+        #await self.command_list.show_commands(message.service)
         #await self.postgres_info.show_for_service(message.service)
 
-    async def action_toggle_follow(self):
-        await self.log_viewer.toggle_follow()
+    def on_command_selected(self, message: CommandSelected):
+        self.global_command_list.execute_command(message.command)
+
+        #    async def action_toggle_follow(self):
+#        await self.log_viewer.toggle_follow()
 
     async def action_restart_service(self):
         if not self.current_service:

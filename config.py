@@ -13,7 +13,7 @@ def ensure_config_exists():
     if path.exists():
         return True
     path.parent.mkdir(parents=True, exist_ok=True)
-
+  
     path.write_text(
         """# BALAM Server Configuration
 services:
@@ -21,7 +21,13 @@ services:
     unit: balam-server.service
   - name: Cloudflared
     unit: cloudflared.service
-"""
+
+
+global_commands:
+  start_all: systemctl start balam-server cloudflared
+  stop_all: systemctl stop balam-server cloudflared
+  backup: "backup"
+    """
     )
 
 def load_config() -> dict:

@@ -1,0 +1,5 @@
+update version -v
+add -a and --author
+finish the command listing thing
+
+commands per service and then global commands (eg: backup, etc)

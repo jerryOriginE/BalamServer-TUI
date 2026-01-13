@@ -1,6 +1,5 @@
 # widgets/logo.py
 from textual.widgets import Static
-from pathlib import Path
 
 CREDITS = """\
 BALAM-SERVER TUI
