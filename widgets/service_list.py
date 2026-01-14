@@ -44,6 +44,7 @@ class ServiceList(ListView):
         except asyncio.CancelledError:
             pass
 
+
     def refresh_status(self):
         self.clear()
 

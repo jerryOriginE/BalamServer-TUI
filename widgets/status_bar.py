@@ -40,8 +40,9 @@ class StatusBar(Static):
             disk = "?"
 
         # Defensive: log_viewer may not exist yet
-        log_viewer = getattr(self.app, "log_viewer", None)
+        log_viewer = getattr(self.app, "log_viewer")
         mode = "STATIC"
+        mode = "FOLLOW" if log_viewer.following else "STATIC"
 
         self.update(
             f"[bold]{host}[/bold]  "

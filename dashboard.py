@@ -89,6 +89,8 @@ LogViewer:focus-within,
 ServiceInfo:focus-within {
     border: round $primary;
 }
+
+/* Confirmation Modal */
 """
 
 
@@ -102,12 +104,9 @@ ServiceInfo:focus-within {
         Binding("q", "quit", "Quit"),
         Binding("Q", "quit", "Quit"),
         Binding("escape", "focus_services", "Services"),
-        Binding("tab", "focus_commands", "Tabs")
-       # Binding("f", "toggle_follow", "Follow Logs"),
+        Binding("tab", "focus_commands", "Tabs"),
+        Binding("f", "toggle_follow", "Follow Logs"),
 
-        #Binding("r", "restart_service", "Restart Service"),
-        #Binding("s", "stop_service", "Stop Service"),
-        #Binding("p", "start_service", "Start Service"),
     ]
 
     def action_focus_services(self):
@@ -130,8 +129,6 @@ ServiceInfo:focus-within {
         self.logo = BalamLogo()
         self.global_command_list = GlobalCommandList(commands)
         self.command_list = CommandList()
-
-        #self.push_screen(DebugBox(str(commands)))
 
         yield self.health_bar
 
@@ -156,14 +153,19 @@ ServiceInfo:focus-within {
         self.current_service = message.service
         await self.log_viewer.show_service(message.service)
         await self.service_info.show_service(message.service)
-        #await self.command_list.show_commands(message.service)
+        self.log_viewer.following = False
+       #await self.command_list.show_commands(message.service)
         #await self.postgres_info.show_for_service(message.service)
 
     def on_command_selected(self, message: CommandSelected):
         self.global_command_list.execute_command(message.command)
 
-        #    async def action_toggle_follow(self):
-#        await self.log_viewer.toggle_follow()
+    def action_toggle_follow(self):
+        if not self.current_service:
+            return
+
+        self.log_viewer.set_service(self.current_service)
+        self.log_viewer.toggle_follow()
 
     async def action_restart_service(self):
         if not self.current_service:

@@ -1,16 +1,34 @@
-# widgets/log_viewer.py
+# widgets/logviewer.py
 from textual.widgets import Static
 from textual.containers import VerticalScroll
 from services.journal import get_recent_logs
 from collections import deque
+import asyncio
 
 class LogViewer(VerticalScroll):
     BORDER_TITLE = "Log Viewer"
-    MAX_LINES = 20
+    MAX_LINES = 10
+    REFRESH_INTERVAL = 3
+
+    def __init__(self):
+        super().__init__()
+        self._task: asyncio.Task | None = None
+        self.following = False
 
     def on_mount(self):
         self.lines = deque(maxlen=self.MAX_LINES)
         self.current_unit: str | None = None
+        self.service = None
+        self._task = asyncio.create_task(self.auto_refresh())
+
+    async def auto_refresh(self):
+        try:
+            while True:
+                if self.following:
+                    await self.show_service(self.service)
+                await asyncio.sleep(self.REFRESH_INTERVAL)
+        except asyncio.CancelledError:
+            pass
 
     async def show_service(self, service):
         self.current_unit = service.unit
@@ -20,6 +38,12 @@ class LogViewer(VerticalScroll):
         self.lines.extend(recent)
 
         self.refresh(layout=True)
+
+    def toggle_follow(self):
+        self.following = not self.following
+
+    def set_service(self, service):
+        self.service = service
 
     def render(self) -> str:
         if not self.current_unit:
