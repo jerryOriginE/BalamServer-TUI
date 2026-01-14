@@ -52,3 +52,6 @@ class StatusBar(Static):
             f"| Mode: [{ 'green' if mode == 'FOLLOW' else 'yellow' }]{mode}[/]  "
             f"| q Quit"
         )
+
+    def set_text(self, text):
+        pass

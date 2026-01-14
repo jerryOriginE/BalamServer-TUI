@@ -1,10 +1,8 @@
 # dashboard.py
-from pathlib import Path
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
 
-from modals.debug_box import DebugBox
 from services.registry import load_services, load_global_commands
 from widgets.service_list import ServiceList, ServiceSelected
 from widgets.log_viewer import LogViewer
@@ -14,11 +12,11 @@ from widgets.health_bar import HealthBar
 from services.systemctl import service_action
 from widgets.postgres_info import PostgresInfo
 from widgets.logo import BalamLogo
-from widgets.command_list import CommandList
-from widgets.global_command_list import CommandSelected, GlobalCommandList
+from widgets.service_command_list import ServiceCommandList
+from widgets.global_command_list import CommandSelected, GlobalCommandList, CommandConfirmed
 from config import config_path
 import asyncio
-
+from textual import work
 
 class ServerDashboard(App):
     CSS = """
@@ -35,7 +33,7 @@ Screen {
 }
 
 /* Panels */
-ServiceList, GlobalCommandList, LogViewer, ServiceInfo, PostgresInfo {
+ServiceList, GlobalCommandList, ServiceCommandList, LogViewer, ServiceInfo, PostgresInfo {
     padding: 1;
     border: round $accent;
     background: $panel 10%;
@@ -61,6 +59,10 @@ ServiceInfo, PostgresInfo {
 PostgresInfo {
     width: 100%;
     border: round blue;
+}
+ServiceCommandList {
+    width: 100%;
+    border: round pink;
 }
 BalamLogo {
     width: 100%;
@@ -128,7 +130,7 @@ ServiceInfo:focus-within {
         self.postgres_info = PostgresInfo()
         self.logo = BalamLogo()
         self.global_command_list = GlobalCommandList(commands)
-        self.command_list = CommandList()
+        self.service_command_list = ServiceCommandList()
 
         yield self.health_bar
 
@@ -141,6 +143,7 @@ ServiceInfo:focus-within {
             Vertical(
                 self.service_info,
                 self.postgres_info,
+                self.service_command_list,
 #                self.logo,
                 id="right-panel",
             ),
@@ -154,11 +157,40 @@ ServiceInfo:focus-within {
         await self.log_viewer.show_service(message.service)
         await self.service_info.show_service(message.service)
         self.log_viewer.following = False
-       #await self.command_list.show_commands(message.service)
+        await self.service_command_list.show_commands(message.service)
         #await self.postgres_info.show_for_service(message.service)
 
     def on_command_selected(self, message: CommandSelected):
         self.global_command_list.execute_command(message.command)
+
+    def on_command_confirmed(self, message: CommandConfirmed):
+        self.run_global_command(message.command)
+    
+    @work
+    async def run_global_command(self, command):
+        self.status_bar.set_text(f"Running {command.name}")
+
+        self.log_viewer.lines.clear()
+        self.log_viewer.write(f"$ {command.command}\n")
+
+        process = await asyncio.create_subprocess_shell(
+                command.command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.STDOUT
+        )
+
+        while True:
+            line = await process.stdout.readline()
+            if not line:
+                break
+            self.log_viewer.write(line.decode().rstrip())
+
+        code = await process.wait()
+
+        if code == 0:
+            self.status_bar.set_text(f"{command.name} completed")
+        else:
+            self.status_bar.set_text(f"{command.name} failed (code {code})")
 
     def action_toggle_follow(self):
         if not self.current_service:
@@ -166,6 +198,9 @@ ServiceInfo:focus-within {
 
         self.log_viewer.set_service(self.current_service)
         self.log_viewer.toggle_follow()
+
+
+    # OLD
 
     async def action_restart_service(self):
         if not self.current_service:

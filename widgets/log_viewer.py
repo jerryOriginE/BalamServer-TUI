@@ -45,6 +45,12 @@ class LogViewer(VerticalScroll):
     def set_service(self, service):
         self.service = service
 
+    def write(self, text):
+        self.following = False
+        self.current_unit = "balam"
+        self.lines.append(text)
+        self.refresh()
+
     def render(self) -> str:
         if not self.current_unit:
             return "Select a service to view logs"

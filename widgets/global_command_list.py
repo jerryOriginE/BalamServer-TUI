@@ -9,6 +9,11 @@ class CommandSelected(Message):
         self.command = command
         super().__init__()
 
+class CommandConfirmed(Message):
+    def __init__(self, command) -> None:
+        super().__init__()
+        self.command = command
+
 class GlobalCommandList(ListView):
     BORDER_TITLE = "Global Commands"
 
@@ -22,13 +27,15 @@ class GlobalCommandList(ListView):
     @work
     async def _confirm_command(self, command):
         confirmed = await self.app.push_screen_wait(
-            CommandConfirmation("echo")
+            CommandConfirmation(command)
         )
 
         if confirmed:
             self.app.notify(f"EXECUTING {command}")
+            self.post_message(CommandConfirmed(command))
         else:
             self.app.notify("CANCELLED")
+
 
     def on_mount(self):
         self.load_commands()

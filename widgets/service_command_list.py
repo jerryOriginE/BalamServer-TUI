@@ -1,4 +1,4 @@
-# widgets/command_list.py
+# widgets/service_command_list.py
 from textual.widgets import ListView, ListItem, Label
 
 ACTIONS = {
@@ -12,8 +12,8 @@ ACTIONS = {
 def get_service_commands(unit):
     return ACTIONS
 
-class CommandList(ListView):
-    BORDER_TITLE = "Command List"
+class ServiceCommandList(ListView):
+    BORDER_TITLE = "Service Command List"
 
     def __init__(self):
         super().__init__()
@@ -30,7 +30,6 @@ class CommandList(ListView):
         commands = get_service_commands(self.unit)
 
         if not commands:
-            
             return
 
         for command in commands:
