@@ -16,18 +16,28 @@ def ensure_config_exists():
   
     path.write_text(
         """# BALAM Server Configuration
+# BALAM Server Configuration
 services:
   - name: BALAM Server
     unit: balam-server.service
   - name: Cloudflared
     unit: cloudflared.service
 
-
 global_commands:
-  start_all: systemctl start balam-server cloudflared
-  stop_all: systemctl stop balam-server cloudflared
-  backup: "backup"
-    """
+  - name: Start All Services 
+    command:  systemctl start balam-server cloudflared
+  - name: Stop All Services
+    command:  systemctl stop balam-server cloudflared
+  - name: Create a SQL Backup
+    command:  backup
+  - name: Update BALAM-SERVER backend
+    command: deploy
+  - name: Test System
+    command: echo "system test"
+ 
+
+
+        """
     )
 
 def load_config() -> dict:

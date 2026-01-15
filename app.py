@@ -2,7 +2,7 @@ from dashboard import ServerDashboard
 import sys
 from config import ensure_config_exists
 
-VERSION = "v0.2.6"
+VERSION = "v0.2.7"
 
 if "--version" in sys.argv or "-v" in sys.argv:
     print(f"BALAM Server TUI - Initial Release - {VERSION}")
@@ -17,7 +17,7 @@ if "--make-config" in sys.argv or "-mc" in sys.argv:
     sys.exit(0)
 
 if "--author" in sys.argv or "-a" in sys.argv:
-    print("This utility was created by jerry.origin")
+    print("This utility was created by Gerardo L. Guizar")
     sys.exit(0)
 
 def main():

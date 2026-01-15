@@ -1,4 +1,2 @@
 commadn bar for advance commands
-update config.py
-update version in -v and --version
 

@@ -143,7 +143,8 @@ Button#no {
         Binding("q", "quit", "Quit"),
         Binding("Q", "quit", "Quit"),
         Binding("escape", "focus_services", "Services"),
-        Binding("tab", "focus_commands", "Tabs"),
+        Binding("g", "focus_global_commands", "GlobalCommands"),
+        Binding("s", "focus_service_commands", "ServiceCommands"),
         Binding("f", "toggle_follow", "Follow Logs"),
 
     ]
@@ -151,8 +152,11 @@ Button#no {
     def action_focus_services(self):
         self.service_list.focus()
 
-    def action_focus_commands(self):
+    def action_focus_global_commands(self):
         self.global_command_list.focus()
+
+    def action_focus_service_commands(self):
+        self.service_command_list.focus()
 
     def compose(self) -> ComposeResult:
         services = load_services(config_path())
@@ -221,6 +225,19 @@ Button#no {
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.STDOUT
         )
+        while True:
+            line = await process.stdout.readline()
+            if not line:
+                break
+            self.log_viewer.write(line.decode().rstrip())
+
+        code = await process.wait()
+
+        if code == 0:
+            self.status_bar.set_text(f"{command} completed")
+        else:
+            self.status_bar.set_text(f"{command} failed (code {code})")
+
 
     @work
     async def run_service_command(self, command):
