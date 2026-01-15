@@ -1,4 +1,5 @@
 # dashboard.py
+from sys import stderr, stdout
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
@@ -12,7 +13,7 @@ from widgets.health_bar import HealthBar
 from services.systemctl import service_action
 from widgets.postgres_info import PostgresInfo
 from widgets.logo import BalamLogo
-from widgets.service_command_list import ServiceCommandList
+from widgets.service_command_list import ServiceCommandConfirmed, ServiceCommandList, ServiceCommandSelected
 from widgets.global_command_list import CommandSelected, GlobalCommandList, CommandConfirmed
 from config import config_path
 import asyncio
@@ -87,12 +88,48 @@ HealthBar {
 /* Focus styles */
 ServiceList:focus-within,
 GlobalCommandList:focus-within,
-LogViewer:focus-within,
+ServiceCommandList:focus-within,
 ServiceInfo:focus-within {
     border: round $primary;
 }
 
 /* Confirmation Modal */
+
+Screen {
+    align: center middle;
+}
+
+CommandConfirmation {
+        width: 60;
+        min-height: 12;
+        padding: 1 2;
+        background: $panel;
+        border: round $primary;
+        }
+
+Label#CommandConfirmation {
+        content-align: center middle;
+        text-align: center;
+        margin: 1 0 2 0;
+        color: $text;
+        }
+
+Button {
+        width: 1fr;
+        margin: 0 1;
+        }
+
+Button#yes {
+        background: $success;
+        color: black;
+        }
+
+Button#no {
+        background: $error;
+        color: black;
+        }
+
+
 """
 
 
@@ -165,7 +202,13 @@ ServiceInfo:focus-within {
 
     def on_command_confirmed(self, message: CommandConfirmed):
         self.run_global_command(message.command)
-    
+
+    def on_service_command_selected(self, message: ServiceCommandSelected):
+        self.service_command_list.execute_command(message.command)
+
+    def on_service_command_confirmed(self, message: ServiceCommandConfirmed):
+        self.run_service_command(message.command)
+
     @work
     async def run_global_command(self, command):
         self.status_bar.set_text(f"Running {command.name}")
@@ -178,6 +221,19 @@ ServiceInfo:focus-within {
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.STDOUT
         )
+
+    @work
+    async def run_service_command(self, command):
+        self.status_bar.set_text(f"Running {command.name}")
+
+        self.log_viewer.lines.clear()
+        self.log_viewer.write(f"$ {command.name}\n")
+
+        process = await asyncio.create_subprocess_shell(
+                command.command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.STDOUT
+                )
 
         while True:
             line = await process.stdout.readline()

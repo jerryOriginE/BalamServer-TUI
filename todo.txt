@@ -1,5 +1,3 @@
-update version -v
-add -a and --author
-finish the command listing thing
-
-commands per service and then global commands (eg: backup, etc)
+commadn bar for advance commands
+update config.py
+update version in -v and --version

@@ -11,10 +11,9 @@ class CommandConfirmation(Screen[bool]):
         self.command = command
 
     def compose(self) -> ComposeResult:
-        yield Label(f"Are you sure you want to execute {self.command}")
+        yield Label(f"Are you sure you want to execute {self.command}",id="CommandConfirmation")
         yield Button("EXECUTE", id="yes",variant="success")
         yield Button("CANCEL", id="no",variant="error")
-
     @on(Button.Pressed, "#yes")
     def handle_yes(self) -> None:
         self.dismiss(True)

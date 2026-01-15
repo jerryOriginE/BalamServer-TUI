@@ -1,12 +1,14 @@
 # services/registry.py
 from dataclasses import dataclass
 from pathlib import Path
+from services.systemctl import get_service_status
 import yaml
 
 @dataclass
 class Service:
     name: str
     unit: str
+    active: bool 
     state: str | None = None
     last_log: str | None = None
 
@@ -23,8 +25,9 @@ def load_services(config_path: Path) -> list[Service]:
     for entry in data.get("services", []):
         services.append(Service(
             name=entry["name"],
-            unit=entry["unit"]      
-        ))
+            unit=entry["unit"],
+            active=True if get_service_status(entry["unit"]) == "active" else False
+            ))
 
     return services
 

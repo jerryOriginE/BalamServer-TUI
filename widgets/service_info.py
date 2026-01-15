@@ -59,9 +59,9 @@ class ServiceInfo(Static):
 
         state_color = "green" if state == "active" else "red"
 
-        controls = "[>→] Start"
-        if state == "active":
-            controls = "[<O>] Restart   [■] Stop   [>→] Start"
+        #controls = "[>→] Start"
+        #if state == "active":
+        #    controls = "[<O>] Restart   [■] Stop   [>→] Start"
 
         self.update(
             f"[bold]{escape_markup(self.unit)}[/bold]\n"
@@ -71,7 +71,7 @@ class ServiceInfo(Static):
             f"CPU time: {cpu_sec:.1f}s\n"
             f"Memory: {mem_mb:.1f} MB\n"
             f"Threads: {tasks}\n\n"
-            f"[bold]Controls[/bold] {controls}"
+            #f"[bold]Controls[/bold] {controls}"
         )
 
     async def on_unmount(self):

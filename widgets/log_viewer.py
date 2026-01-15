@@ -7,7 +7,7 @@ import asyncio
 
 class LogViewer(VerticalScroll):
     BORDER_TITLE = "Log Viewer"
-    MAX_LINES = 10
+    MAX_LINES = 20
     REFRESH_INTERVAL = 3
 
     def __init__(self):
