@@ -38,6 +38,20 @@ def get_service_info(unit: str ) -> dict | None:
 
     return info
 
+
+def check_service_exists(unit: str):
+    try:
+        result = subprocess.run(
+                ["systemctl", "is-active", unit],
+                capture_output=True,
+                text=True,
+                check=False,
+                )
+    
+        return result.returncode in [0, 3]
+    except Exception:
+        return False
+    
 def get_service_status(unit: str) -> str:
     try:
         result = subprocess.run(

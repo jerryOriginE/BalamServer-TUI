@@ -1,19 +1,25 @@
 # services/registry.py
 from dataclasses import dataclass
 from pathlib import Path
-from services.systemctl import get_service_status
+from services.systemctl import get_service_status, check_service_exists
 import yaml
 
 @dataclass
 class Service:
     name: str
     unit: str
-    active: bool 
+    active: bool
+    exists: bool
     state: str | None = None
     last_log: str | None = None
 
 @dataclass
 class GlobalCommand:
+    name: str
+    command: str
+
+@dataclass
+class ServiceCommand:
     name: str
     command: str
 
@@ -23,10 +29,12 @@ def load_services(config_path: Path) -> list[Service]:
 
     services = []
     for entry in data.get("services", []):
+        service_exist = check_service_exists(entry["unit"])
         services.append(Service(
             name=entry["name"],
             unit=entry["unit"],
-            active=True if get_service_status(entry["unit"]) == "active" else False
+            active=True if get_service_status(entry["unit"]) == "active" else False,
+            exists=service_exist
             ))
 
     return services

@@ -2,7 +2,7 @@ from dashboard import ServerDashboard
 import sys
 from config import ensure_config_exists
 
-VERSION = "v0.2.5"
+VERSION = "v0.2.6"
 
 if "--version" in sys.argv or "-v" in sys.argv:
     print(f"BALAM Server TUI - Initial Release - {VERSION}")

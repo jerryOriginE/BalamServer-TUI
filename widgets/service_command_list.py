@@ -39,10 +39,11 @@ class ServiceCommandList(ListView):
     def __init__(self):
         super().__init__()
         self.unit: str | None = None
-        self.active = False
+        self.exists = False
         self.visible = False
 
     def execute_command(self, command):
+        self.notify(f"{command}")
         self.app.call_later(self._confirm_command, command)
 
     @work
@@ -66,17 +67,15 @@ class ServiceCommandList(ListView):
             return
 
         commands = get_service_commands(self.unit)
-
-        if not commands or not self.active:
+        if not commands or not self.exists:
             self.visible = False 
             return
         self.visible = True
 
         for action, data in commands.items():
-
-            action = data["icon"]
+            icon = data["icon"]
             description = data["desc"]
-            label = Label(f"{action} - {description}")
+            label = Label(f"{icon} - {description}")
             item = ListItem(label)
             item.command = action
             self.append(item)
@@ -84,7 +83,7 @@ class ServiceCommandList(ListView):
 
     async def show_commands(self, service):
         self.unit = getattr(service, "unit", None)
-        self.active = getattr(service, "active", False)
+        self.exists  = getattr(service, "exists", False)
         self._refresh()
 
     def on_list_view_selected(self, event):

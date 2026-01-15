@@ -224,13 +224,14 @@ Button#no {
 
     @work
     async def run_service_command(self, command):
-        self.status_bar.set_text(f"Running {command.name}")
+        self.status_bar.set_text(f"Running {command}")
 
         self.log_viewer.lines.clear()
-        self.log_viewer.write(f"$ {command.name}\n")
+        self.log_viewer.write(f"$ {command}\n")
 
+        command = f"systemctl {command} {self.current_service.unit}"
         process = await asyncio.create_subprocess_shell(
-                command.command,
+                command,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.STDOUT
                 )
@@ -244,9 +245,9 @@ Button#no {
         code = await process.wait()
 
         if code == 0:
-            self.status_bar.set_text(f"{command.name} completed")
+            self.status_bar.set_text(f"{command} completed")
         else:
-            self.status_bar.set_text(f"{command.name} failed (code {code})")
+            self.status_bar.set_text(f"{command} failed (code {code})")
 
     def action_toggle_follow(self):
         if not self.current_service:
