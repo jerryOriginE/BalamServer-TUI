@@ -24,6 +24,7 @@ imports:
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#collections">collections</a>
  &#8226;   <a href="#collections.abc">collections.abc</a>
+ &#8226;   <a href="#config">config</a>
  &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#dashboard">dashboard</a>
  &#8226;   <a href="#encodings">encodings</a>
@@ -526,7 +527,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>'org.python'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#pickle">pickle</a>
+    <a href="#copy">copy</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
 
   </div>
@@ -2022,6 +2023,7 @@ imported by:
  &#8226;   <a href="#textual.widgets._tabbed_content">textual.widgets._tabbed_content</a>
  &#8226;   <a href="#textual.worker">textual.worker</a>
  &#8226;   <a href="#textual.worker_manager">textual.worker_manager</a>
+ &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
  &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
@@ -3444,7 +3446,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#dashboard">dashboard</a>
+    <a href="#app.py">app.py</a>
+ &#8226;   <a href="#dashboard">dashboard</a>
 
   </div>
 
@@ -3547,8 +3550,8 @@ imported by:
   <a target="code" href="/usr/lib/python3.10/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#copyreg">copyreg</a>
- &#8226;   <a href="#org">org</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
@@ -3699,15 +3702,19 @@ imported by:
 imports:
     <a href="#asyncio">asyncio</a>
  &#8226;   <a href="#config">config</a>
- &#8226;   <a href="#pathlib">pathlib</a>
  &#8226;   <a href="#services.registry">services.registry</a>
  &#8226;   <a href="#services.systemctl">services.systemctl</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#textual">textual</a>
  &#8226;   <a href="#textual.app">textual.app</a>
  &#8226;   <a href="#textual.binding">textual.binding</a>
  &#8226;   <a href="#textual.containers">textual.containers</a>
+ &#8226;   <a href="#widgets.global_command_list">widgets.global_command_list</a>
  &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
+ &#8226;   <a href="#widgets.logo">widgets.logo</a>
  &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
+ &#8226;   <a href="#widgets.service_command_list">widgets.service_command_list</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
  &#8226;   <a href="#widgets.status_bar">widgets.status_bar</a>
@@ -10050,6 +10057,38 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="modals"></a>
+  <a target="code" href="-" type="text/plain"><tt>modals</tt></a>
+<span class="moduletype">NamespacePackage</span>  <div class="import">
+imported by:
+    <a href="#modals.confirmation_box">modals.confirmation_box</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="modals.confirmation_box"></a>
+  <a target="code" href="/src/modals/confirmation_box.py" type="text/plain"><tt>modals.confirmation_box</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#modals">modals</a>
+ &#8226;   <a href="#textual">textual</a>
+ &#8226;   <a href="#textual.app">textual.app</a>
+ &#8226;   <a href="#textual.screen">textual.screen</a>
+ &#8226;   <a href="#textual.widgets">textual.widgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#widgets.global_command_list">widgets.global_command_list</a>
+ &#8226;   <a href="#widgets.service_command_list">widgets.service_command_list</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="msvcrt"></a>
   <a target="code" href="" type="text/plain"><tt>msvcrt</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -11050,7 +11089,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>org</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#copy">copy</a>
+    <a href="#pickle">pickle</a>
 
   </div>
 
@@ -11247,7 +11286,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#config">config</a>
- &#8226;   <a href="#dashboard">dashboard</a>
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
  &#8226;   <a href="#importlib.readers">importlib.readers</a>
  &#8226;   <a href="#markdown_it.utils">markdown_it.utils</a>
@@ -11292,14 +11330,14 @@ imported by:
   <a target="code" href="/usr/lib/python3.10/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -22398,6 +22436,7 @@ imports:
     <a href="#dataclasses">dataclasses</a>
  &#8226;   <a href="#pathlib">pathlib</a>
  &#8226;   <a href="#services">services</a>
+ &#8226;   <a href="#services.systemctl">services.systemctl</a>
  &#8226;   <a href="#yaml">yaml</a>
 
   </div>
@@ -22439,6 +22478,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#dashboard">dashboard</a>
+ &#8226;   <a href="#services.registry">services.registry</a>
  &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
@@ -22909,6 +22949,7 @@ imported by:
  &#8226;   <a href="#contextlib">contextlib</a>
  &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#ctypes._endian">ctypes._endian</a>
+ &#8226;   <a href="#dashboard">dashboard</a>
  &#8226;   <a href="#dataclasses">dataclasses</a>
  &#8226;   <a href="#datetime">datetime</a>
  &#8226;   <a href="#dis">dis</a>
@@ -23189,6 +23230,8 @@ imports:
   <div class="import">
 imported by:
     <a href="#app.py">app.py</a>
+ &#8226;   <a href="#dashboard">dashboard</a>
+ &#8226;   <a href="#modals.confirmation_box">modals.confirmation_box</a>
  &#8226;   <a href="#textual">textual</a>
  &#8226;   <a href="#textual.__main__">textual.__main__</a>
  &#8226;   <a href="#textual._animator">textual._animator</a>
@@ -23347,6 +23390,8 @@ imported by:
  &#8226;   <a href="#textual.widgets._tree">textual.widgets._tree</a>
  &#8226;   <a href="#textual.worker">textual.worker</a>
  &#8226;   <a href="#textual.worker_manager">textual.worker_manager</a>
+ &#8226;   <a href="#widgets.global_command_list">widgets.global_command_list</a>
+ &#8226;   <a href="#widgets.service_command_list">widgets.service_command_list</a>
 
   </div>
 
@@ -24824,6 +24869,7 @@ imports:
 imported by:
     <a href="#app.py">app.py</a>
  &#8226;   <a href="#dashboard">dashboard</a>
+ &#8226;   <a href="#modals.confirmation_box">modals.confirmation_box</a>
  &#8226;   <a href="#textual">textual</a>
  &#8226;   <a href="#textual._animator">textual._animator</a>
  &#8226;   <a href="#textual._callback">textual._callback</a>
@@ -27701,6 +27747,8 @@ imported by:
  &#8226;   <a href="#textual.widgets._toggle_button">textual.widgets._toggle_button</a>
  &#8226;   <a href="#textual.widgets._tree">textual.widgets._tree</a>
  &#8226;   <a href="#textual.worker">textual.worker</a>
+ &#8226;   <a href="#widgets.global_command_list">widgets.global_command_list</a>
+ &#8226;   <a href="#widgets.service_command_list">widgets.service_command_list</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
 
   </div>
@@ -28300,6 +28348,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#app.py">app.py</a>
+ &#8226;   <a href="#modals.confirmation_box">modals.confirmation_box</a>
  &#8226;   <a href="#textual._compositor">textual._compositor</a>
  &#8226;   <a href="#textual._context">textual._context</a>
  &#8226;   <a href="#textual.app">textual.app</a>
@@ -28953,6 +29002,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#app.py">app.py</a>
+ &#8226;   <a href="#modals.confirmation_box">modals.confirmation_box</a>
  &#8226;   <a href="#textual._markup_playground">textual._markup_playground</a>
  &#8226;   <a href="#textual._text_area_theme">textual._text_area_theme</a>
  &#8226;   <a href="#textual.app">textual.app</a>
@@ -29022,9 +29072,12 @@ imported by:
  &#8226;   <a href="#textual.widgets.tabbed_content">textual.widgets.tabbed_content</a>
  &#8226;   <a href="#textual.widgets.text_area">textual.widgets.text_area</a>
  &#8226;   <a href="#textual.widgets.tree">textual.widgets.tree</a>
+ &#8226;   <a href="#widgets.global_command_list">widgets.global_command_list</a>
  &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
+ &#8226;   <a href="#widgets.logo">widgets.logo</a>
  &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
+ &#8226;   <a href="#widgets.service_command_list">widgets.service_command_list</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
  &#8226;   <a href="#widgets.status_bar">widgets.status_bar</a>
@@ -32017,12 +32070,35 @@ imported by:
   <a target="code" href="/src/widgets/__init__.py" type="text/plain"><tt>widgets</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
 imported by:
-    <a href="#widgets.health_bar">widgets.health_bar</a>
+    <a href="#widgets.global_command_list">widgets.global_command_list</a>
+ &#8226;   <a href="#widgets.health_bar">widgets.health_bar</a>
  &#8226;   <a href="#widgets.log_viewer">widgets.log_viewer</a>
+ &#8226;   <a href="#widgets.logo">widgets.logo</a>
  &#8226;   <a href="#widgets.postgres_info">widgets.postgres_info</a>
+ &#8226;   <a href="#widgets.service_command_list">widgets.service_command_list</a>
  &#8226;   <a href="#widgets.service_info">widgets.service_info</a>
  &#8226;   <a href="#widgets.service_list">widgets.service_list</a>
  &#8226;   <a href="#widgets.status_bar">widgets.status_bar</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="widgets.global_command_list"></a>
+  <a target="code" href="/src/widgets/global_command_list.py" type="text/plain"><tt>widgets.global_command_list</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#modals.confirmation_box">modals.confirmation_box</a>
+ &#8226;   <a href="#textual">textual</a>
+ &#8226;   <a href="#textual.message">textual.message</a>
+ &#8226;   <a href="#textual.widgets">textual.widgets</a>
+ &#8226;   <a href="#widgets">widgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#dashboard">dashboard</a>
 
   </div>
 
@@ -32051,10 +32127,28 @@ imported by:
   <a target="code" href="/src/widgets/log_viewer.py" type="text/plain"><tt>widgets.log_viewer</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#collections">collections</a>
+    <a href="#asyncio">asyncio</a>
+ &#8226;   <a href="#collections">collections</a>
  &#8226;   <a href="#services.journal">services.journal</a>
  &#8226;   <a href="#textual.containers">textual.containers</a>
  &#8226;   <a href="#textual.widgets">textual.widgets</a>
+ &#8226;   <a href="#widgets">widgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#dashboard">dashboard</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="widgets.logo"></a>
+  <a target="code" href="/src/widgets/logo.py" type="text/plain"><tt>widgets.logo</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#textual.widgets">textual.widgets</a>
  &#8226;   <a href="#widgets">widgets</a>
 
   </div>
@@ -32073,6 +32167,26 @@ imported by:
 imports:
     <a href="#asyncio">asyncio</a>
  &#8226;   <a href="#subprocess">subprocess</a>
+ &#8226;   <a href="#textual.widgets">textual.widgets</a>
+ &#8226;   <a href="#widgets">widgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#dashboard">dashboard</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="widgets.service_command_list"></a>
+  <a target="code" href="/src/widgets/service_command_list.py" type="text/plain"><tt>widgets.service_command_list</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#modals.confirmation_box">modals.confirmation_box</a>
+ &#8226;   <a href="#textual">textual</a>
+ &#8226;   <a href="#textual.message">textual.message</a>
  &#8226;   <a href="#textual.widgets">textual.widgets</a>
  &#8226;   <a href="#widgets">widgets</a>
 

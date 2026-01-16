@@ -145,8 +145,8 @@ Button#no {
         Binding("escape", "focus_services", "Services"),
         Binding("g", "focus_global_commands", "GlobalCommands"),
         Binding("s", "focus_service_commands", "ServiceCommands"),
-        Binding("f", "toggle_follow", "Follow Logs"),
-
+        Binding("f", "toggle_follow", "Follow Logs",show=True),
+        Binding(":", "command_bar", "Command Bar",show=True)
     ]
 
     def action_focus_services(self):
@@ -157,6 +157,10 @@ Button#no {
 
     def action_focus_service_commands(self):
         self.service_command_list.focus()
+
+    def action_command_bar(self):
+        self.notify(":")
+        self.status_bar.launch_command_bar()
 
     def compose(self) -> ComposeResult:
         services = load_services(config_path())

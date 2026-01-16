@@ -25,7 +25,7 @@ def format_uptime(seconds: int) -> str:
 
 class StatusBar(Static):
     def on_mount(self):
-        self.set_interval(1, self.update_status)
+        self.set_interval(2.5, self.update_status)
 
     def update_status(self):
         host = os.uname().nodename
@@ -54,4 +54,7 @@ class StatusBar(Static):
         )
 
     def set_text(self, text):
-        pass
+        self.update(text)
+
+    def launch_command_bar(self):
+        self.update(":")
