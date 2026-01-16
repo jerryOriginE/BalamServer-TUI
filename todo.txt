@@ -1,2 +1,2 @@
-commadn bar for advance commands
-
++ implement more commands
++ help menu

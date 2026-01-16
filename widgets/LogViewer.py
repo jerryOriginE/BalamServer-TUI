@@ -5,9 +5,11 @@ from services.journal import get_recent_logs
 from collections import deque
 import asyncio
 
+from textual.widgets import Input
+
 class LogViewer(VerticalScroll):
     BORDER_TITLE = "Log Viewer"
-    MAX_LINES = 20
+    MAX_LINES = 25
     REFRESH_INTERVAL = 3
 
     def __init__(self):
@@ -20,7 +22,7 @@ class LogViewer(VerticalScroll):
         self.current_unit: str | None = None
         self.service = None
         self._task = asyncio.create_task(self.auto_refresh())
-
+    
     async def auto_refresh(self):
         try:
             while True:

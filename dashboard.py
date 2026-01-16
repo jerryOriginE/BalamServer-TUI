@@ -4,17 +4,18 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
 
+from CommandHandler import CommandHandler
 from services.registry import load_services, load_global_commands
-from widgets.service_list import ServiceList, ServiceSelected
-from widgets.log_viewer import LogViewer
-from widgets.status_bar import StatusBar
-from widgets.service_info import ServiceInfo
-from widgets.health_bar import HealthBar
+from widgets.ServiceList import ServiceList, ServiceSelected
+from widgets.LogViewer import LogViewer
+from widgets.StatusBar import StatusBar
+from widgets.ServiceInfo import ServiceInfo
+from widgets.HealthBar import HealthBar
 from services.systemctl import service_action
-from widgets.postgres_info import PostgresInfo
+from widgets.PostgresInfo import PostgresInfo
 from widgets.logo import BalamLogo
-from widgets.service_command_list import ServiceCommandConfirmed, ServiceCommandList, ServiceCommandSelected
-from widgets.global_command_list import CommandSelected, GlobalCommandList, CommandConfirmed
+from widgets.ServiceCommandList import ServiceCommandConfirmed, ServiceCommandList, ServiceCommandSelected
+from widgets.GlobalCommandList import CommandSelected, GlobalCommandList, CommandConfirmed
 from config import config_path
 import asyncio
 from textual import work
@@ -145,8 +146,8 @@ Button#no {
         Binding("escape", "focus_services", "Services"),
         Binding("g", "focus_global_commands", "GlobalCommands"),
         Binding("s", "focus_service_commands", "ServiceCommands"),
-        Binding("f", "toggle_follow", "Follow Logs",show=True),
-        Binding(":", "command_bar", "Command Bar",show=True)
+        Binding("f", "toggle_follow", "Follow Logs"),
+        Binding(":", "command_bar", "Command Bar")
     ]
 
     def action_focus_services(self):
@@ -159,13 +160,13 @@ Button#no {
         self.service_command_list.focus()
 
     def action_command_bar(self):
-        self.notify(":")
         self.status_bar.launch_command_bar()
 
     def compose(self) -> ComposeResult:
         services = load_services(config_path())
         commands = load_global_commands(config_path())
 
+        self.command_handler = CommandHandler(self.app)
 
         self.service_list = ServiceList(services)
         self.log_viewer = LogViewer()
@@ -277,42 +278,9 @@ Button#no {
         self.log_viewer.set_service(self.current_service)
         self.log_viewer.toggle_follow()
 
-
-    # OLD
-
-    async def action_restart_service(self):
-        if not self.current_service:
-            return
-        
-        await asyncio.to_thread(
-            service_action,
-            self.current_service.unit,
-            "restart",
-        )
-
-        await self.service_info.show_service(self.current_service)
-
-    async def action_stop_service(self):
-        if not self.current_service:
-            return
-        
-        await asyncio.to_thread(
-            service_action,
-            self.current_service.unit,
-            "stop",
-        )
-
-        await self.service_info.show_service(self.current_service)
-
-    async def action_start_service(self):
-        if not self.current_service:
-            return
-        
-        await asyncio.to_thread(
-            service_action,
-            self.current_service.unit,
-            "start",
-        )
-
-        await self.service_info.show_service(self.current_service)
-        
+    def handle_command(self, command):
+       if command == "q":
+           self.exit()
+       else:
+            #self.notify(f"$ {command}")
+            self.command_handler.handle_command(command)

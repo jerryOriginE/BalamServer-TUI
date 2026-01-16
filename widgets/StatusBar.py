@@ -1,7 +1,11 @@
 # widgets/status_bar.py
 import os
-from textual.widgets import Static
+from textual.app import ComposeResult
+from textual.widgets import Button, Input, Static
 from services.server import server_summary
+from enum import Enum
+
+from widgets.CommandBar import CommandBar
 
 def get_uptime_seconds() -> int:
     try:
@@ -22,9 +26,20 @@ def format_uptime(seconds: int) -> str:
         return f"{hours}h {minutes}m"
     return f"{minutes}m"
 
+class Modes(Enum):
+    COMMAND = 'Command',
+    SEARCH = 'Search',
+    TEXT = 'Text',
+    DEFAULT = '',
 
 class StatusBar(Static):
+
+    def __init__(self):
+        super().__init__()
+        self.mode = Modes.DEFAULT
+
     def on_mount(self):
+        self.update_status()
         self.set_interval(2.5, self.update_status)
 
     def update_status(self):
@@ -57,4 +72,5 @@ class StatusBar(Static):
         self.update(text)
 
     def launch_command_bar(self):
-        self.update(":")
+        if not self.app.query(CommandBar):
+            self.app.mount(CommandBar())
