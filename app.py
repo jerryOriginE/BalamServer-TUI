@@ -5,7 +5,7 @@ from config import ensure_config_exists
 VERSION = "v0.2.8"
 
 if "--version" in sys.argv or "-v" in sys.argv:
-    print(f"BALAM Server TUI - Initial Release - {VERSION}")
+    print(f"BALAM Server TUI - {VERSION}")
     sys.exit(0)
 
 if "--make-config" in sys.argv or "-mc" in sys.argv:
