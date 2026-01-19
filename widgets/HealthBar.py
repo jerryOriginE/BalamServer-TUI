@@ -8,9 +8,10 @@ class HealthBar(Static):
         self.services = services
 
     def on_mount(self):
-        self.refresh()
+        self.update_health()
+        self.set_interval(2.5, self.update_health)
 
-    def render(self) -> str:
+    def update_health(self):
         total = len(self.services)
 
         active = sum(
@@ -25,7 +26,7 @@ class HealthBar(Static):
 
         inactive = total - active - failed
 
-        return (
+        self.update (
             f"[b]BALAM SERVER[/b]  "
             f"[green]● {active} active[/]  "
             f"[yellow]○ {inactive} inactive[/]  "

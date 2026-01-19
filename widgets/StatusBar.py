@@ -1,7 +1,6 @@
 # widgets/status_bar.py
 import os
-from textual.app import ComposeResult
-from textual.widgets import Button, Input, Static
+from textual.widgets import Static
 from services.server import server_summary
 from enum import Enum
 
